@@ -22,7 +22,7 @@ router.post("/enroll",validEnrollment,async(req,res)=>{
 })
 
 
-router.get("/courses:id/enrollments",async(req,res)=>{
+router.get("/courses/:id/enrollments",async(req,res)=>{
     const {id}=req.params
     const {data,error}=await supabase.from("enrollments").select("*").eq("course_id",id)
     if(error){
