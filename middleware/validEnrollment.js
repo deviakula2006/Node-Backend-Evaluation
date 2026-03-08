@@ -7,4 +7,4 @@ function validEnrollment(req,res,next){
     }
     next();
 }
-modeule.exports=validEnrollment
+module.exports=validEnrollment

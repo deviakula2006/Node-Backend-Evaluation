@@ -1,6 +1,33 @@
 const express= require("express")
 const router = express.Router()
-router.get("/courses",(req,res)=>{
-    res.send("Courses route working")
+const supabase =require("../supabaseClient")
+const validEnrollment = require("../middleware/validEnrollment")
+
+router.get("/courses",async(req,res)=>{
+   const {data,error}= await supabase.from("courses").select("*")
+   if(error){
+    return res.status(500).json(error)
+   }
+   res.json(data)
+})
+
+
+router.post("/enroll",validEnrollment,async(req,res)=>{
+    const {student_name,course_id}=req.body
+    const {data,error}=await supabase.from("enrollments").insert([{student_name,course_id}])
+    if(error){
+        return res.status(500).json(error)
+    }
+    res.json({message:"Student enrolled successfully",data})
+})
+
+
+router.get("/courses:id/enrollments",async(req,res)=>{
+    const {id}=req.params
+    const {data,error}=await supabase.from("enrollments").select("*").eq("course_id",id)
+    if(error){
+        return res.status(500).json(error)
+    }
+    res.json(data)
 })
 module.exports=router
