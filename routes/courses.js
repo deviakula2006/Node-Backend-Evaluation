@@ -12,7 +12,7 @@ router.get("/courses",async(req,res)=>{
 })
 
 
-router.post("/enroll",validEnrollment,async(req,res)=>{
+router.post("/enroll",validateEnrollment,async(req,res)=>{
     const {student_name,course_id}=req.body
     const {data,error}=await supabase.from("enrollments").insert([{student_name,course_id}])
     if(error){
