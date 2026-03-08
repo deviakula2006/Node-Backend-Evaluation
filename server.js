@@ -1,0 +1,13 @@
+const express= require("express")
+const cors=require("cors")
+const logger = require("./middleware/logger")
+const courseRoutes=require("./routes/courses")
+require("dotenv").config()
+const app = express()
+app.use(cors())
+app.use(express.json())
+app.use(logger)
+app.use("/",courseRoutes)
+app.listen(process.env.PORT,()=>{
+    console.log(`Server Running at port ${process.env.PORT}`)
+})
